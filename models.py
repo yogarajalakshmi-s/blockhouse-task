@@ -17,4 +17,4 @@ class OrderCreate(BaseModel):
     symbol: str = Field(..., min_length=1, max_length=10, description="Stock symbol")
     price: float = Field(..., gt=0, description="Price must be greater than zero")
     quantity: int = Field(..., gt=0, description="Quantity must be a positive integer")
-    order_type: constr(pattern="^(buy|sell)$") = Field(..., description="Order type must be 'buy' or 'sell'")
+    order_type: constr(regex="^(buy|sell)$") = Field(..., description="Order type must be 'buy' or 'sell'")
