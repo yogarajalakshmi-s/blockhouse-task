@@ -1,18 +1,32 @@
-version: "3"
+version: "3.8"
+
 services:
-  app:
-    build: .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgresql://myuser:test@db:5432/orders
-  db:
-    image: postgres:latest
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    restart: always
     environment:
       POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: orders
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
+    networks:
+      - blockhouse-network
+
+  app:
+    build: .
+    container_name: blockhouse-app
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydatabase"
+    networks:
+      - blockhouse-network
+
+networks:
+  blockhouse-network:
+    driver: bridge
