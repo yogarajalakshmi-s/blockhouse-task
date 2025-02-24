@@ -23,7 +23,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydatabase"
+      DATABASE_URL: "postgresql://myuser:test@postgres:5432/orders"
     networks:
       - blockhouse-network
 
